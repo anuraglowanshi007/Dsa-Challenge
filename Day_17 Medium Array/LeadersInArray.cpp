@@ -18,7 +18,7 @@ vector<int> printLeaders(int arr[], int n) {
       ans.push_back(arr[i]);
       max = arr[i];
     }
-
+    
   
   return ans;
 }
