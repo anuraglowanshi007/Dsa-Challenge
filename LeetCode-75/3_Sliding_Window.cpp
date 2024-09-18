@@ -107,3 +107,54 @@ int main() {
         return result;
     }
 
+
+// 643. Maximum Average Subarray I
+    class Solution {
+public:
+    double findMaxAverage(vector<int>& nums, int k) {
+        double ans =0;
+        double sum = 0;
+
+        // calculate the sum of first k ele
+        for(int i=0;i<k;i++){
+            sum+=nums[i];
+        }
+
+        ans = sum;
+
+        for(int i=k;i<nums.size();i++){
+            sum+=nums[i];
+            sum-=nums[i-k];
+            ans = max(ans,sum);
+        }
+        return ans/k;
+    }
+};
+
+//1004. Max Consecutive Ones III
+// Brute force 
+
+int longestOnes(vector<int>& nums, int k) {
+        int len =0;
+        int maxLen = 0;
+        int n = nums.size();
+
+        for(int i=0;i<n;i++){
+            int zero =0;
+            for(int j=i;j<n;j++){
+
+                if(nums[j]==0){
+                    zero++;
+                }
+                if(zero <= k){
+                len = j-i+1;
+                maxLen = max(maxLen,len);
+                }
+                else{
+                    break;
+                }
+            }
+        }
+        return maxLen;
+    }
+
