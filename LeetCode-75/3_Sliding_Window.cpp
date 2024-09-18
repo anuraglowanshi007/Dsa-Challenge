@@ -158,3 +158,108 @@ int longestOnes(vector<int>& nums, int k) {
         return maxLen;
     }
 
+
+    // Sliding Window approach 
+    int longestOnes(vector<int>& nums, int k) {
+        int i=0;
+        int j=0;
+        int n = nums.size();
+        int len = 0;
+        int maxlen = 0;
+        int zero =0;
+
+        while(j<n){
+            if(nums[j]==0){
+                zero++;
+            }
+
+            if(zero<=k){
+                len = j-i+1;
+                maxlen = max(maxlen,len);
+            }
+            else{
+                if(nums[i]==0){
+                    zero--;   
+                }
+                i++;
+            }
+            
+            j++;
+        }
+        return maxlen;
+    }
+
+
+// 1493. Longest Subarray of 1's After Deleting One Element
+
+// Brute force 
+    int findMax(vector<int>& nums, int skip_idx) {
+        int currentLength = 0;
+        int maxLength = 0;
+        int n = nums.size();
+        for (int i = 0; i < n; i++) {
+            if (i == skip_idx) {
+                continue;
+            }
+            if (nums[i] == 1) {
+                currentLength++;
+                maxLength = max(currentLength, maxLength);
+            } else {
+                currentLength = 0;
+            }
+        }
+        return maxLength;
+    }
+    int longestSubarray(vector<int>& nums) {
+        int n = nums.size();
+        int result = 0;
+
+        int zerocount =0;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == 0) {
+                zerocount++;
+                result = max(result, findMax(nums, i));
+            }
+            if(zerocount==0){
+                return n-1;
+            }
+        }
+        return result;
+    }
+
+// Sliding window 
+
+    int longestSubarray(vector<int>& nums) {
+        int i = 0;                // Left pointer for the sliding window
+        int j = 0;                // Right pointer for the sliding window
+        int maxLen = 0;           // To store the maximum length of the subarray
+        int zerocount = 0;        // To track the number of zeros in the current window
+        int n = nums.size();      // Size of the input array
+        int len = 0;              // To track the current window length
+
+        // Traverse the array with the right pointer `j`
+        while (j < n) {
+            // If a zero is encountered, increase the zero count
+            if (nums[j] == 0) {
+                zerocount++;
+            }
+
+            // If there is at most one zero in the window, calculate the length
+            if (zerocount <= 1) {
+                len = j - i;       // The length of the window is j - i
+                maxLen = max(maxLen, len); // Update the max length if current window is larger
+            } 
+            // If there are more than one zero in the window, shrink it from the left
+            else {
+                // If the element at the left pointer is zero, reduce the zero count
+                if (nums[i] == 0) {
+                    zerocount--;
+                }
+                i++;               // Move the left pointer to the right to shrink the window
+            }
+            j++;                   // Move the right pointer to expand the window
+        }
+        
+        return maxLen;             // Return the maximum length of the subarray found
+    }
+
