@@ -263,3 +263,99 @@ int longestOnes(vector<int>& nums, int k) {
         return maxLen;             // Return the maximum length of the subarray found
     }
 
+//Maximum of all Subarray of size k 
+
+// Brute Force 
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+    int maxi;
+    vector<int>ans;
+    int n = nums.size();
+    for(int i=0;i<=n-k;i++){
+        maxi = nums[i];
+        for(int j=i;j<i+k;j++){
+            maxi = max(maxi,nums[j]);
+        }
+        ans.push_back(maxi);
+    }
+    return ans;
+        
+    }
+
+// sliding window approach 
+
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+     deque<int> q;  // Deque to store the indices of the elements
+    int i = 0, j = 0;  // i and j are the window pointers
+    vector<int> res;  // Result vector to store the maximum of each window
+    int n = nums.size();
+
+    while (j < n) {
+        // Maintain the deque such that elements in q are in descending order
+        // Remove elements from the back of the deque if they are smaller than arr[j]
+        while (!q.empty() && q.back() < nums[j]){
+         q.pop_back();
+        }
+        q.push_back(nums[j]);  // Add current element to the deque
+
+        // If the current window size is less than k, just increment j
+        if (j - i + 1 < k) 
+        j++;
+        
+        // When the window size is exactly k
+        else if (j - i + 1 == k) {
+            // The front of the deque is the largest element of the current window
+            res.push_back(q.front());
+            
+            // Remove the element from the front if it is the one that is sliding out of the window
+            if (q.front() == nums[i])
+             q.pop_front();
+            
+            // Slide the window
+            i++;
+            j++;
+        }
+    }
+    return res;  // Return the result containing the maximum of each window
+}
+    
+//  Maximum Sum of Distinct Subarrays With Length K
+    long long maximumSubarraySum(vector<int>& nums, int k) {
+        unordered_set<int> distinctElements;  // To store distinct elements
+        long long sum = 0;                   // To store current sum
+        long long maxi = 0;                  // To store the maximum sum of distinct subarrays
+        int i = 0, j = 0;                    // Sliding window pointers
+        int n = nums.size();
+
+        while (j < n) {
+
+            while (distinctElements.find(nums[j]) != distinctElements.end()) {
+                sum -= nums[i];  // Remove the leftmost element from sum
+                distinctElements.erase(nums[i]);  // Remove the leftmost element from the set
+                i++;  // Slide the window from the left
+            }
+            // Add nums[j] to the sum and distinct set
+            
+            sum += nums[j];
+            distinctElements.insert(nums[j]);
+
+            // If the size of the distinct set is less than the window size k,
+            // we haven't reached a valid subarray yet.
+            if (j - i + 1 < k) {
+                j++;
+            }
+            // When the window size is exactly k
+            else if (j - i + 1 == k) {
+                // Check if all elements are distinct (i.e., size of set is k)
+                if (distinctElements.size() == k) {
+                    maxi = max(maxi, sum);
+                }
+                
+                // Now, slide the window
+                sum -= nums[i];  // Remove the leftmost element from sum
+                distinctElements.erase(nums[i]);  // Remove the leftmost element from the set
+                i++;  // Slide the window from the left
+                j++;  // Move the right pointer forward
+            }
+        }
+        return maxi;
+    }
