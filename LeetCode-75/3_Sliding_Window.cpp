@@ -317,6 +317,8 @@ int longestOnes(vector<int>& nums, int k) {
     }
     return res;  // Return the result containing the maximum of each window
 }
+
+
     
 //  Maximum Sum of Distinct Subarrays With Length K
     long long maximumSubarraySum(vector<int>& nums, int k) {
@@ -359,3 +361,144 @@ int longestOnes(vector<int>& nums, int k) {
         }
         return maxi;
     }
+
+
+    // Count the no. of subarray sum equal K
+    int subarraySum(vector<int>& nums, int k) {
+        int i = 0;               // Left pointer
+        int j = 0;               // Right pointer
+        long long sum = 0;       // Running sum
+        int cnt = 0;             // Count of subarrays with sum equal to k
+        int n = nums.size();     // Size of the input array
+
+        while (j < n) {
+            sum += nums[j];  // Add the current element to the sum
+
+            // Shrink the window while sum exceeds k
+            while (sum > k && i <= j) {
+                sum -= nums[i];  // Remove the element at the left boundary
+                i++;
+            }
+
+            // If the sum is exactly equal to k, increment the count
+            if (sum == k) {
+                cnt++;
+            }
+
+            // Move the right pointer to expand the window
+            j++;
+        }
+
+        return cnt;
+    }
+
+
+    // Longest/ Largest subarray Sum k 
+    int Longest_subarraySum(vector<int>& nums, int k) {
+        int i = 0;               // Left pointer
+        int j = 0;               // Right pointer
+        long long sum = 0;       // Running sum
+        int maxi = 0;             
+        int n = nums.size();     // Size of the input array
+
+        while (j < n) {
+            sum += nums[j];  // Add the current element to the sum
+
+            // Shrink the window while sum exceeds k
+            while (sum > k && i <= j) {
+                sum -= nums[i];  // Remove the element at the left boundary
+                i++;
+            }
+
+            // If the sum is exactly equal to k, 
+            if (sum == k) {
+                maxi = max(maxi,j-i+1);
+            }
+
+            // Move the right pointer to expand the window
+            j++;
+        }
+
+        return maxi;
+    }
+
+// Longest K unique characters substring
+
+class Solution {
+public:
+    int longestKSubstr(string s, int k) {
+        unordered_map<char, int> freqMap;  // To store the frequency of characters in the window
+        int i = 0;                        // Left pointer
+        int j = 0;                        // Right pointer
+        int maxi = -1;                    // To store the maximum length of substring with k unique characters
+        int n = s.size();                 // Size of the input string
+
+        // Traverse the string with the right pointer
+        while (j < n) {
+            freqMap[s[j]]++;  // Add the character s[j] to the frequency map
+
+            // If the number of unique characters is less than k, expand the window by moving j
+            if (freqMap.size() < k) {
+                j++;
+            }
+            // If the number of unique characters is exactly k, calculate the maximum length
+            else if (freqMap.size() == k) {
+                maxi = max(maxi, j - i + 1);  // Update the maximum length
+                j++;
+            }
+            // If the number of unique characters exceeds k, shrink the window by moving i
+            else {
+                while (freqMap.size() > k) {
+                    freqMap[s[i]]--;  // Reduce the frequency of the character at the left pointer
+                    if (freqMap[s[i]] == 0) {
+                        freqMap.erase(s[i]);  // Remove the character from the map if its count becomes 0
+                    }
+                    i++;  // Shrink the window from the left
+                }
+                j++;
+            }
+        }
+
+        return maxi;  // Return the maximum length, or -1 if no valid substring is found
+    }
+};
+
+
+// 3. Longest Substring Without Repeating Characters
+
+
+    int lengthOfLongestSubstring(string s) {
+        int i = 0;  // Left pointer
+        int j = 0;  // Right pointer
+        int maxLen = 0;  // Maximum length of the substring
+        int n = s.size();  // Size of the input string
+        unordered_map<char, int> mp;  // To store the frequency of characters in the window
+
+        // Traverse the string with the right pointer
+        while (j < n) {
+            mp[s[j]]++;  // Increment the frequency of the character at the right pointer
+
+            // If there are no repeating characters (map size matches the window size)
+            if (mp.size() == j - i + 1) {
+                maxLen = max(maxLen, j - i + 1);  // Update the maximum length
+                j++;  // Move the right pointer to expand the window
+            }
+            // If there are repeating characters (map size is smaller than the window size)
+            else if (mp.size() < j - i + 1) {
+                while (mp.size() < j - i + 1) {  // Shrink the window until no repeating characters
+                    mp[s[i]]--;  // Decrease the frequency of the character at the left pointer
+                    if (mp[s[i]] == 0) {
+                        mp.erase(s[i]);  // Remove the character from the map if its count is zero
+                    }
+                    i++;  // Move the left pointer to shrink the window
+                }
+                j++;  // Move the right pointer after shrinking the window
+            }
+        }
+
+        return maxLen;  // Return the maximum length of the substring
+    }
+
+
+
+
