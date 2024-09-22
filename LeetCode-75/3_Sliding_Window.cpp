@@ -422,6 +422,7 @@ int longestOnes(vector<int>& nums, int k) {
         return maxi;
     }
 
+
 // Longest K unique characters substring
 
 class Solution {
@@ -499,6 +500,150 @@ public:
         return maxLen;  // Return the maximum length of the substring
     }
 
+// Count the nice Subarray which is odd element in k size window 
+function countNiceSubarrays(nums, k) {
+    let count = 0;
+    
+    // Iterate through all possible starting points of subarrays
+    for (let i = 0; i < nums.length; i++) {
+        let oddCount = 0;
+        
+        // Generate all subarrays starting at i
+        for (let j = i; j < nums.length; j++) {
+            // If the current element is odd, increment oddCount
+            if (nums[j] % 2 !== 0) {
+                oddCount++;
+            }
+            
+            // If we have exactly k odd numbers, increment the result count
+            if (oddCount === k) {
+                count++;
+            }
+        }
+    }
+    
+    return count;
+}
+
+// using slding window  
+class Solution {
+public:
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        int i=0;
+        int j=0;
+        int count =0;
+        int oddcount = 0;
+        int result = 0;
+        int n =nums.size();
+        
+        while(j<n){
+
+            if(nums[j]%2!=0){
+                oddcount ++;
+                count =0;
+            }
+
+            while(oddcount==k){
+                count++;
+
+                if(nums[i]%2==1){
+                    oddcount--;
+                }
+                i++;
+            }
+            result+= count;
+            j++;
+        }
+        return result;
+    }
+};
 
 
 
+// 904. Fruit Into Baskets
+//Brute force 
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+       int maxLen  = 0;
+       int n = fruits.size();
+
+        for(int i=0;i<n;i++){
+             unordered_set<int>st;
+             for(int j=i;j<n;j++){
+                st.insert(fruits[j]);
+                
+                if(st.size()<=2){
+                    maxLen = max(maxLen,j-i+1);
+                }
+                else {
+                    break;
+                }
+             }
+        }
+        return maxLen;
+    }
+};
+
+// Sldiing Window approach
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        int i = 0;
+        int j = 0;
+        int maxLen = 0;
+        int n = fruits.size();
+        unordered_map<int, int> mp;
+
+        if (fruits.size() <= 2) {
+            return fruits.size();
+        }
+
+        while (j < n) {
+            mp[fruits[j]]++;
+            
+            while (mp.size() > 2) {
+                mp[fruits[i]]--; // reduce the count of the fruit at the left
+                                 // pointer
+                if (mp[fruits[i]] == 0) {
+                    mp.erase(fruits[i]); // remove the fruit if its count
+                                         // becomes zero
+                }
+                i++; // move the left pointer
+            }
+
+            // Calculate the length of the current window and update maxLen
+            maxLen = max(maxLen, j - i + 1);
+            j++; // move the right pointer
+        }
+        return maxLen;
+    }
+};
+
+
+// Maximum Length Substring With Two Occurrences
+
+class Solution {
+public:
+    int maximumLengthSubstring(string s) {
+        int i = 0;
+        int j = 0;
+        unordered_map<char, int> mp;
+        int n = s.size();
+        int maxLen = 0;
+
+        for (int j = 0; j < n; j++) {
+            mp[s[j]]++;
+
+            while(mp[s[j]] > 2) {
+                mp[s[i]]--;
+                if (mp[s[i]] == 0)
+                    mp.erase(s[i]);
+                i++;
+            }
+
+            maxLen = max(maxLen, j - i + 1);
+        }
+        return maxLen;
+    }
+};
