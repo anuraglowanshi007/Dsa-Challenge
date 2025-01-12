@@ -4,7 +4,6 @@ using namespace std;
 // IP - arr = [100, 4, 200, 1, 3, 2]:
 int longsetConsecutiveSequence(vector<int> & arr){
       int n = arr.size();
-      
       sort(arr.begin(),arr.end());
 
       int lastsmallest = INT_MAX;
