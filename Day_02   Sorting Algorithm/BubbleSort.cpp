@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// Swap the adjacent element 
 void bubble_sort(int arr[], int n) {
     // bubble sort
     for (int i = n - 1; i >= 0; i--) {

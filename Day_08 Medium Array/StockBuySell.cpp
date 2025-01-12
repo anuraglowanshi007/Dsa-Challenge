@@ -14,6 +14,14 @@ int maxProfit(vector<int> &arr) {
     for (int i = 0; i < arr.size(); i++) {
         minPrice = min(minPrice, arr[i]);
         maxPro = max(maxPro, arr[i] - minPrice);
+
+        // if (arr[i] < minPrice) {
+        //     minPrice = arr[i]; // Update minimum price
+        // }
+        // int price = arr[i] - minPrice; // Calculate potential profit
+        // if (price > maxPro) {
+        //     maxPro = price; // Update maximum profit
+        // }
     }
     
     return maxPro;

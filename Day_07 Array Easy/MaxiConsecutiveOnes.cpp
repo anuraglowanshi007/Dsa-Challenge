@@ -3,8 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Solution {
-  public:
+
     int findMaxConsecutiveOnes(vector < int > & nums) {
       int cnt = 0;
       int maxi = 0;
@@ -19,12 +18,12 @@ class Solution {
       }
       return maxi;
     }
-};
+
 
 int main() {
   vector < int > nums = { 1, 1, 0, 1, 1, 1 };
-  Solution obj;
-  int ans = obj.findMaxConsecutiveOnes(nums);
+ 
+  int ans = findMaxConsecutiveOnes(nums);
   cout << "The maximum  consecutive 1's are " << ans;
   return 0;
 }

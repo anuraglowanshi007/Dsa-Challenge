@@ -647,3 +647,30 @@ public:
         return maxLen;
     }
 };
+
+// 992. Subarrays with K Different Integers
+
+//Brute Force
+class Solution {
+public:
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        
+        int cnt =0;
+        int n = nums.size();
+
+        for(int i=0;i<n;i++){
+              unordered_map<int,int>mp;
+            for(int j=i;j<n;j++){
+                mp[nums[j]]++;
+
+                if(mp.size()==k)
+                cnt++;
+                else if(mp.size()>k)
+                break;
+            }
+        }
+        return cnt;
+    }
+};
+
+// sliding window approach 

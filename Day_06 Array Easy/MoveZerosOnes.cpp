@@ -20,13 +20,6 @@ void moveZeroes(vector<int>& nums) {
 int main() {
     // Example usage
     vector<int> nums = {0, 1, 0, 3, 12};
-    
-    cout << "Original array: ";
-    for(int num : nums) {
-        cout << num << " ";
-    }
-    cout << endl;
-    
     moveZeroes(nums);
     
     cout << "Array after moving zeroes: ";

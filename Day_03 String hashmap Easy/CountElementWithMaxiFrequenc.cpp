@@ -29,3 +29,7 @@ int maxFrequencyElements(vector<int>& nums) {
         }
     }
 
+    return ans;
+
+}
+

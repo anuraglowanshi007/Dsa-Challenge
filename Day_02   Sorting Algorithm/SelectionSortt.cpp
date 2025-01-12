@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
-
 using namespace std;
+
+// takes minimum element and compare with it
 void selection_sort(int arr[], int n) {
   // selection sort
   for (int i = 0; i < n - 1; i++) {
